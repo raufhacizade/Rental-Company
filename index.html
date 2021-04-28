@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>KS Vehicle Rental Comp</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css">
+	<script src="https://kit.fontawesome.com/96fc7bf85a.js" crossorigin="anonymous"></script>
+	<link rel="shortcut icon" href="logo.png">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+</head>
+
+<body>
+	<div class="container">
+		<p id="headline">YOUR VEHICLE RENTAL COMPANY</p>
+
+		<center>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#discountListModal">
+				<i class="fas fa-bell fa-2x"></i>
+				<div class="title">Active discounts for today</div>
+			</button>
+		</center>
+
+		<div class="modal fade" id="discountListModal" tabindex="-1" role="dialog"
+			aria-labelledby="discountListModalTitle" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="discountListModalTitle">Active discounts for today</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<ul>
+							<li>If you rent two cars or one car and two motorcycles, then you can rent one bike for free
+							</li>
+							<li>If you have selected some bikes previously, then one of them becomes free</li>
+							<li> If the you delete the free bike from the order, then the total price will be reduced by
+								half of
+								the bike’s rental price</li>
+							<li> When an offering is withdrawn but given again, and no bike was added/deleted meanwhile,
+								you get
+								the previous offering back</li>
+							<li> If the you delete some cars or motorcycles from the order that the offering threshold
+								doesn't
+								hold, then any offering will be withdrawn</li>
+							<li>If you delete a free bike then you get a price reduction for a subsequent offering</li>
+						</ul>
+
+						<p class="text-center font-weight-bold">
+							Limited discount offers exist due to COVID19
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<h3>Vehicles</h3>
+
+		<div class="card-deck mb-4 text-center">
+			<div class="card shadow-sm">
+				<div class="card-header">
+					<h4 class="my-0 font-weight-normal">Car</h4>
+				</div>
+				<div class="card-body">
+					<h3 class="card-title pricing-card-title">€300</h2>
+						<button type="button" class="btn btn-block btn-outline-primary"
+							onClick="updateQuantity(1, 1)">Add
+							to
+							Cart</button>
+				</div>
+			</div>
+			<div class="card shadow-sm">
+				<div class="card-header">
+					<h4 class="my-0 font-weight-normal">Motorcycle</h4>
+				</div>
+				<div class="card-body">
+					<h3 class="card-title pricing-card-title">€150</h3>
+					<button type="button" class="btn btn-block btn-outline-primary" onClick="updateQuantity(2, 1)">Add
+						to
+						Cart</button>
+				</div>
+			</div>
+			<div class="card shadow-sm">
+				<div class="card-header">
+					<h4 class="my-0 font-weight-normal">Bike</h4>
+				</div>
+				<div class="card-body">
+					<h3 class="card-title pricing-card-title">€100</h3>
+					<button type="button" class="btn btn-block btn-outline-primary" onClick="updateQuantity(3, 1)">Add
+						to
+						Cart</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="row text-success text-center" id="completed-order">
+			<div class="col-sm"></div>
+			<div class="col-sm mt-4">Order successfully completed.</br>Thank you for choosing us !!!</div>
+			<div class="col-sm"></div>
+		</div>
+
+		<div class="card mb-4 shadow-sm" id="cart">
+			<div class="card-header">
+				<h3>Cart</h3>
+			</div>
+			<div class="card-body">
+				<table class="table">
+					<thead>
+						<th>No</th>
+						<th>Type</th>
+						<th>Count</th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th class="text-center">Toral Price</th>
+						<th></th>
+					</thead>
+					<tbody class="cart">
+					</tbody>
+					<tfoot>
+						<td colspan="6" class="text-success discount-alert"></td>
+						<td class="text-center"><strong class="total"></strong></td>
+						<td class="text-right">
+							<button type="button" class="btn btn-outline-primary" data-toggle="modal"
+								data-target="#invoiceModal" onclick="renderInvoiceTable()">
+								Checkout
+							</button>
+						</td>
+					</tfoot>
+				</table>
+
+			</div>
+		</div>
+
+		<div class="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="invoiceModalTitle"
+			aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="invoiceModalTitle">Invoice details</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body text-left">
+						<table class="table">
+							<thead>
+								<th>No</th>
+								<th>Product Name</th>
+								<th class="text-center">Count</th>
+								<th>Price</th>
+							</thead>
+							<tbody class="invoice-details-table">
+							</tbody>
+							<tfoot class="text-right">
+								<td colspan="4" class="text-success total-invoice text-right"></td>
+							</tfoot>
+							<tfoot>
+								<td colspan="4" class="accepted-offer"></td>
+							</tfoot>
+							<tfoot>
+								<td colspan="4" class="discount-list"></td>
+							</tfoot>
+						</table>
+					</div>
+					<div class="modal-footer">
+
+						<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="reset()">Reset order</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="checkout()">Checkout</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card mb-4 shadow-sm" id="discount-offer">
+			<div class="card-header">
+				<h3>Discounts and Offers</h3>
+			</div>
+			<div class="card-body">
+				<table class="table">
+					<tbody class="discount-offer-table">
+					</tbody>
+					<tfoot>
+
+					</tfoot>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+	<center>
+		<div id="footer">
+			All copyrights are reserved for KillShot Developer Team:
+			Rauf Hajiyev, Mahammad Mammadli, Emin Bayramov
+		</div>
+
+	</center>
+</body>
+
+<script src="js/render.js"></script>
+<script src="js/util.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js">
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js">
+</script>
+
+<script>
+	$(document).ready(function () {
+		$("#MyModal").modal();
+		$('#myModal').on('shown.bs.modal', function () {
+			$('#myInput').focus();
+		});
+	});
+</script>
+
+</html>
