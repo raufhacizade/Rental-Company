@@ -56,7 +56,7 @@ let discounts_for_rejects = 0;
 let deleted_free_bikes = 0;
 
 function updateVehicleQuantity(v_id, quantity, vehiclesList){
-    let updatedVehicle = vehiclesList.find(vehicle=> vehicle.id = v_id -1)
+    let updatedVehicle = vehiclesList.find(vehicle=> vehicle.id == v_id)
 
     if(updatedVehicle && !(quantity < 0 && updatedVehicle.quantity <= 0)){
         updatedVehicle.quantity += quantity;
