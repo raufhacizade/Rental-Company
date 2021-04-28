@@ -1,4 +1,3 @@
-
 let vehicles = [{
     id: 1,
     name: "Car",
@@ -56,25 +55,21 @@ let rejected_offer_id = -1;
 let discounts_for_rejects = 0;
 let deleted_free_bikes = 0;
 
-function updateVehicleQuantity(v_id, number, vehiclesList){
-    let selectedVehicle = null;
+function updateVehicleQuantity(v_id, quantity, vehiclesList){
+    let updatedVehicle = vehiclesList.find(vehicle=> vehicle.id = v_id -1)
 
-    if(vehiclesList){
-         selectedVehicle = vehiclesList.find(vehicle => vehicle.id == v_id);
-    }
-
-    if(selectedVehicle && !(number < 0 && selectedVehicle.quantity <= 0)){
-        selectedVehicle.quantity += number;
-        total_cart_quantity += number;
+    if(updatedVehicle && !(quantity < 0 && updatedVehicle.quantity <= 0)){
+        updatedVehicle.quantity += quantity;
+        total_cart_quantity += quantity;
     }
 
     return vehiclesList;
 }
 
 function getVehiclesCount(vehiclesList) {
-    let result = {cars: 0, motorcycles: 0, bikes: 0}
+    let result = {cars: 0, motorcycles: 0, bikes: 0};
 
-    if(vehiclesList !=null){
+    if(vehiclesList !=null && vehiclesList != []){
         for (let i = 0; i < vehiclesList.length; i++) {
             let vehicle = vehiclesList[i];
           
@@ -89,11 +84,14 @@ function getVehiclesCount(vehiclesList) {
 
 function getFreeBikeCountOffer1(vehicles_count){
     let offerCount = 0;
-    if (vehicles_count.motorcycles / 2 >= vehicles_count.cars)
+
+    if(vehicles_count == null || Object.keys(vehicles_count).length == 0)
+        offerCount = 0;
+    else if (vehicles_count.motorcycles / 2 >= vehicles_count.cars)
         offerCount = vehicles_count.cars;
     else
-        offerCount += Math.floor(vehicles_count.motorcycles / 2) +
-        Math.floor((vehicles_count.cars - Math.floor(vehicles_count.motorcycles / 2)) / 2)
+        offerCount = Math.floor(vehicles_count.motorcycles / 2) +
+        Math.floor((vehicles_count.cars - Math.floor(vehicles_count.motorcycles / 2)) / 2);
 
     return offerCount;
 }
@@ -101,7 +99,7 @@ function getFreeBikeCountOffer1(vehicles_count){
 function getFreeBikeCountOffer2(vehicles_count){
     let offerCount = 0;
 
-    if (vehicles_count.bikes >= 2)
+    if (vehicles_count != null && vehicles_count.bikes >= 2)
         offerCount = 1;
 
     return offerCount;
@@ -110,20 +108,14 @@ function getFreeBikeCountOffer2(vehicles_count){
 const getTotalPrice =(vehiclesList) => {
     let result = 0;
 
-    if(vehiclesList !=null){
-        for (let i = 0; i < vehiclesList.length; i++) {
-            let vehicle = vehiclesList[i];
-          
-            result += vehicle.price * vehicle.quantity
-        }
-    }
+    if(vehiclesList !=null && Object.keys(vehiclesList).length != 0)
+        vehiclesList.forEach(vehicle => result += vehicle.price * vehicle.quantity);
 
     return result;
 }
 
 const getTotalPriceByVehicle = (vehicle) => {
-    // console.log(vehicle);
-    return (vehicle!= null) ? vehicle.price * vehicle.quantity : 0
+    return (vehicle!= null && Object.keys(vehicle).length != 0) ? vehicle.price * vehicle.quantity : 0
 };
 
 function resetAllData(){
@@ -143,20 +135,20 @@ function resetAllData(){
     deleted_free_bikes = 0;
 }
 
-module.exports = vehicles;
-module.exports = offerList;
-module.exports = total_cart_quantity;
-module.exports = total_offer_quantity;
-module.exports = acceped_offer_id;
-module.exports = rejected_offer_id;
-module.exports = total_cart_quantity;
-module.exports = discounts_for_rejects;
-module.exports = deleted_free_bikes;
+module.exports.vehicles = vehicles;
+module.exports.offerList = offerList;
+module.exports.total_cart_quantity = total_cart_quantity;
+module.exports.total_offer_quantity = total_offer_quantity;
+module.exports.acceped_offer_id = acceped_offer_id;
+module.exports.rejected_offer_id = rejected_offer_id;
+module.exports.total_cart_quantity = total_cart_quantity;
+module.exports.discounts_for_rejects = discounts_for_rejects;
+module.exports.deleted_free_bikes = deleted_free_bikes;
 
-module.exports = resetAllData;
-module.exports = updateVehicleQuantity;
-module.exports = getVehiclesCount;
-module.exports = getFreeBikeCountOffer1;
-module.exports = getFreeBikeCountOffer2;
-module.exports = getTotalPrice;
-module.exports = getTotalPriceByVehicle;
+module.exports.resetAllData = resetAllData;
+module.exports.updateVehicleQuantity = updateVehicleQuantity;
+module.exports.getVehiclesCount = getVehiclesCount;
+module.exports.getFreeBikeCountOffer1 = getFreeBikeCountOffer1;
+module.exports.getFreeBikeCountOffer2 = getFreeBikeCountOffer2;
+module.exports.getTotalPrice = getTotalPrice;
+module.exports.getTotalPriceByVehicle = getTotalPriceByVehicle;

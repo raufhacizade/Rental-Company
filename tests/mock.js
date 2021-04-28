@@ -33,20 +33,30 @@ const getMockVehicleList = () => [{
 ];
 
 const getMockOfferList = () => [{
-        id: 1,
-        accept_message: "",
-        reject_message: "",
-        quantity: 0,
-        status: null
-    },
-    {
-        id: 2,
-        accept_message: "",
-        reject_message: "",
-        quantity: 0,
-        status: null
-    }
+    id: 1,
+    accept_message: "",
+    reject_message: "",
+    quantity: 0,
+    status: null
+},
+{
+    id: 2,
+    accept_message: "",
+    reject_message: "",
+    quantity: 0,
+    status: null
+}
 ];
 
-module.exports = getMockVehicleList;
-module.exports = getMockOfferList;
+const defaultVehiclesCounts = () => new { cars: 0, motorcycles: 0, bikes: 0};
+const mockVehiclesCounts110 = () => new { cars: 1, motorcycles: 1, bikes: 0};
+const mockVehiclesCounts212 = () => new { cars: 2, motorcycles: 1, bikes: 2};
+const mockVehiclesCounts333 = () => new { cars: 3, motorcycles: 3, bikes: 3};
+
+
+module.exports.getMockVehicleList = getMockVehicleList;
+module.exports.getMockOfferList = getMockOfferList;
+module.exports.getMockOfferList = defaultVehiclesCounts;
+module.exports.getMockOfferList = mockVehiclesCounts110;
+module.exports.getMockOfferList = mockVehiclesCounts212;
+module.exports.getMockOfferList = mockVehiclesCounts333;

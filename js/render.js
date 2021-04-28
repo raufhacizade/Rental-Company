@@ -222,11 +222,13 @@ function checkout() {
     document.getElementById("completed-order").style.display = "block";
 }
 
-// module.exports = vehicles;
-// module.exports = total_cart_quantity;
-// module.exports = total_offer_quantity;
-// module.exports = acceped_offer_id;
-// module.exports = rejected_offer_id;
-// module.exports = total_cart_quantity;
-// module.exports = discounts_for_rejects;
-// module.exports = deleted_free_bikes;
+module.exports.updateQuantity = updateQuantity;
+module.exports.discountOffer_1 = discountOffer_1;
+module.exports.discountOffer_2 = discountOffer_2;
+module.exports.updateOfferList = updateOfferList;
+module.exports.updateOfferStatus = updateOfferStatus;
+module.exports.renderCart = renderCart;
+module.exports.renderOfferTable = renderOfferTable;
+module.exports.renderInvoiceTable = renderInvoiceTable;
+module.exports.reset = reset;
+module.exports.checkout = checkout;
