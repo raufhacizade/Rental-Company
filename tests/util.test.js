@@ -1,7 +1,10 @@
-const {getMockVehicleList, defaultVehiclesCounts,mockVehiclesCounts110, mockVehiclesCounts212} = require('./mock');
+const {getMockVehicleList, defaultVehiclesCounts, getMockOfferList,mockVehiclesCounts110, mockVehiclesCounts212} = require('./mock');
 
 const {resetAllData, updateVehicleQuantity, getVehiclesCount, getFreeBikeCountOffer1, getFreeBikeCountOffer2 ,
 	   getTotalPrice, getTotalPriceByVehicle} = require('../js/util');
+
+let {vehicles, offerList, total_cart_quantity, total_offer_quantity, acceped_offer_id , rejected_offer_id ,
+	discounts_for_rejects, deleted_free_bikes} = require('../js/util');
 
 beforeAll(() => {
 	return resetAllData;
@@ -11,13 +14,12 @@ beforeEach(() => {
 	return resetAllData;
 });
 
-
 describe("util.js updateVehicleQuantity function tests",() => {
 
 	test("test-1 : with negative quantity", ()=>{
 		// arrange
-		let vehicles = getMockVehicleList();
-		let copy = vehicles.map(e => e);
+		let mock_vehicles = getMockVehicleList();
+		let copy = mock_vehicles.map(e => e);
 
 		// act
 		let quantity = -1;
@@ -25,16 +27,16 @@ describe("util.js updateVehicleQuantity function tests",() => {
 		let state = updateVehicleQuantity(vehicleId, quantity, copy);
 
 		// assert
-		expect(state.length).toBe(vehicles.length);
-		vehicles.forEach(el=>{
+		expect(state.length).toBe(mock_vehicles.length);
+		mock_vehicles.forEach(el=>{
 			expect(state).toContainEqual(el);
 		});
 	})
 
 	test("test-2 : with empty list", ()=>{
 		// arrange
-		let vehicles = [];
-		let copy = vehicles.map(e => e);
+		let mock_vehicles = [];
+		let copy = mock_vehicles.map(e => e);
 
 		// act
 		let quantity = 2;
@@ -42,53 +44,53 @@ describe("util.js updateVehicleQuantity function tests",() => {
 		let state = updateVehicleQuantity(vehicleId, quantity, copy);
 
 		// assert
-		expect(state.length).toBe(vehicles.length);
-		vehicles.forEach(el=>{
+		expect(state.length).toBe(mock_vehicles.length);
+		mock_vehicles.forEach(el=>{
 			expect(state).toContainEqual(el);
 		});
 	})
 
 	test("test-3 : with invalid id", ()=>{
-		let vehicles = getMockVehicleList();
-		let copy = vehicles.map(e => e);
+		let mock_vehicles = getMockVehicleList();
+		let copy = mock_vehicles.map(e => e);
 
 		let quantity = 2;
 		const vehicleId = -2;
 		let state = updateVehicleQuantity(vehicleId, quantity, copy);
 
-		expect(state.length).toBe(vehicles.length);
-		vehicles.forEach(el=>{
+		expect(state.length).toBe(mock_vehicles.length);
+		mock_vehicles.forEach(el=>{
 			expect(state).toContainEqual(el);
 		});
 	})
 
 	test("test-4 : with valid id and positive quantity", ()=>{
-		let vehicles = getMockVehicleList();
-		let copy = vehicles.map(e => e);
+		let mock_vehicles = getMockVehicleList();
+		let copy = mock_vehicles.map(e => e);
 
 		let quantity = 2;
 		const vehicleId = 2;
 		let state = updateVehicleQuantity(vehicleId, quantity, copy);
 
-		vehicles[vehicleId - 1].quantity = quantity;
-		expect(state.length).toBe(vehicles.length);
-		vehicles.forEach(el=>{
+		mock_vehicles[vehicleId - 1].quantity = quantity;
+		expect(state.length).toBe(mock_vehicles.length);
+		mock_vehicles.forEach(el=>{
 			expect(state).toContainEqual(el);
 		});
 	})
 
 	test("test-5 : with valid id and negative quantity", ()=>{
-		let vehicles = getMockVehicleList();
-		vehicles[0].quantity = 3;
-		let copy = vehicles.map(e => e);
+		let mock_vehicles = getMockVehicleList();
+		mock_vehicles[0].quantity = 3;
+		let copy = mock_vehicles.map(e => e);
 
 		let quantity = -2;
 		const vehicleId = 1;
 		let state = updateVehicleQuantity(vehicleId, quantity, copy);
 
-		vehicles[vehicleId - 1].quantity = 1;
-		expect(state.length).toBe(vehicles.length);
-		vehicles.forEach(el=>{
+		mock_vehicles[vehicleId - 1].quantity = 1;
+		expect(state.length).toBe(mock_vehicles.length);
+		mock_vehicles.forEach(el=>{
 			expect(state).toContainEqual(el);
 		});
 	})
@@ -98,8 +100,8 @@ describe("util.js updateVehicleQuantity function tests",() => {
 describe("util.js getVehiclesCount function tests",() => {
 
 	test("test-1 : with empty vehicle count list", ()=>{
-		let vehicles = [];
-		let copy = vehicles.map(e => e);
+		let mock_vehicles = [];
+		let copy = mock_vehicles.map(e => e);
 
 		let state = getVehiclesCount(copy);
 
@@ -116,8 +118,8 @@ describe("util.js getVehiclesCount function tests",() => {
 	});
 
 	test("test-3 : with mock_vehicles", ()=>{
-		let vehicles = getMockVehicleList();
-		let copy = vehicles.map(e => e);
+		let mock_vehicles = getMockVehicleList();
+		let copy = mock_vehicles.map(e => e);
 		copy[0].quantity = 1;
 		copy[1].quantity = 1;
 
@@ -128,8 +130,8 @@ describe("util.js getVehiclesCount function tests",() => {
 	});
 
 	test("test-4 : with mock_vehicles", ()=>{
-		let vehicles = getMockVehicleList();
-		let copy = vehicles.map(e => e);
+		let mock_vehicles = getMockVehicleList();
+		let copy = mock_vehicles.map(e => e);
 		copy[2].quantity = 1;
 		copy[1].quantity = 1;
 		copy[2].quantity = 1;
@@ -239,8 +241,8 @@ describe("util.js getTotalPrice function tests", () => {
 	});
 
 	test('test-3 : with a default vehicle list', () => {
-		let vehicles = getMockVehicleList();
-		let copy = vehicles.map(e => e);
+		let mock_vehicles = getMockVehicleList();
+		let copy = mock_vehicles.map(e => e);
 
 		let state = getTotalPrice(copy);
 
@@ -249,8 +251,8 @@ describe("util.js getTotalPrice function tests", () => {
 	});
 
 	test('test-4 : with a non-default vehicle list', () => {
-		let vehicles = getMockVehicleList();
-		let copy = vehicles.map(e => e);
+		let mock_vehicles = getMockVehicleList();
+		let copy = mock_vehicles.map(e => e);
 		copy[0].quantity = 1;
 		copy[1].quantity = 1;
 		copy[2].quantity = 2;
@@ -262,8 +264,8 @@ describe("util.js getTotalPrice function tests", () => {
 	});
 
 	test('test-5 : with a non-default vehicle list', () => {
-		let vehicles = getMockVehicleList();
-		let copy = vehicles.map(e => e);
+		let mock_vehicles = getMockVehicleList();
+		let copy = mock_vehicles.map(e => e);
 		copy[0].quantity = 2;
 		copy[1].quantity = 4;
 		copy[2].quantity = 5;
@@ -273,6 +275,34 @@ describe("util.js getTotalPrice function tests", () => {
 		expect(state).toEqual(1700);
 		expect(state).toBeGreaterThanOrEqual(0);
 	});
+});
+
+describe("util.js reset function tests",() => {
+
+	test("test-1 : check necessary variables after resetAllData called", ()=>{
+
+		let mock_vehicles = getMockVehicleList();
+		let mock_offerList = getMockOfferList();
+
+		let stage = resetAllData();
+
+		expect(stage).toEqual(0);
+
+		expect(total_cart_quantity).toEqual(0);
+		expect(total_offer_quantity).toEqual(0);
+		expect(acceped_offer_id).toEqual(-1);
+		expect(rejected_offer_id).toEqual(-1);
+		expect(discounts_for_rejects).toEqual(0);
+		expect(deleted_free_bikes).toEqual(0);
+
+		mock_vehicles.forEach((el) => {
+			expect(vehicles).toContainEqual(el);
+		});
+
+		mock_offerList.forEach((el) => {
+			expect(offerList).toContainEqual(el);
+		});
+	})
 });
 
 describe("util.js getTotalPriceByVehicle function tests", () => {
@@ -322,3 +352,4 @@ describe("util.js getTotalPriceByVehicle function tests", () => {
 		expect(state).toBeGreaterThanOrEqual(0);
 	});
 });
+

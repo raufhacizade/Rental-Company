@@ -56,7 +56,7 @@ const mockVehiclesCounts333 = () => new { cars: 3, motorcycles: 3, bikes: 3};
 
 module.exports.getMockVehicleList = getMockVehicleList;
 module.exports.getMockOfferList = getMockOfferList;
-module.exports.getMockOfferList = defaultVehiclesCounts;
-module.exports.getMockOfferList = mockVehiclesCounts110;
-module.exports.getMockOfferList = mockVehiclesCounts212;
-module.exports.getMockOfferList = mockVehiclesCounts333;
+module.exports.defaultVehiclesCounts = defaultVehiclesCounts;
+module.exports.mockVehiclesCounts110 = mockVehiclesCounts110;
+module.exports.mockVehiclesCounts212 = mockVehiclesCounts212;
+module.exports.mockVehiclesCounts333 = mockVehiclesCounts333;

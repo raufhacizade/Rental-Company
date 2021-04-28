@@ -133,6 +133,8 @@ function resetAllData(){
     rejected_offer_id = -1;
     discounts_for_rejects = 0;
     deleted_free_bikes = 0;
+
+    return 0;
 }
 
 module.exports.vehicles = vehicles;
